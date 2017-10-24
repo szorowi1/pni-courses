@@ -68,8 +68,6 @@ def find_oscillation_events(arr, direction, sfreq, h_freq=5, thresh=None):
    -- direction: CCW or CW
    -- sfreq: sampling frequency
    -- h_freq: lowpass frequency. If set to False, no lowpass applied.
-   -- min_duration: minimum length of cluster (in seconds)
-   -- tol: non-zero tolerance. Datapoints beneath this value are considered stationary.
     '''
     assert direction == 'CCW' or direction == 'CW'
     
@@ -95,3 +93,14 @@ def find_oscillation_events(arr, direction, sfreq, h_freq=5, thresh=None):
         events[np.in1d(events[:,0], minima), -1] = 1
         
     return events
+
+def find_threshold(arr, k):
+    return k * np.median( np.abs(arr) ) / 0.6745
+
+def amplitude_thresholding(x0, thresh):
+    '''Simple peak finding algorithm.'''
+    assert x0.ndim == 1
+    clusters, ix = measurements.label(x0 > thresh)
+    peak_loc = np.concatenate(measurements.maximum_position(x0, labels=clusters, index=np.arange(ix)+1))
+    peak_mag = measurements.maximum(x0, labels=clusters, index=np.arange(ix)+1)
+    return peak_loc, peak_mag
