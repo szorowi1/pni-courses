@@ -42,7 +42,7 @@ class SingleBump(object):
         self.u0     = u0
     
     def compute_weights(self):
-        
+        '''convenience function: compute excitatory weights'''
         ## Preallocate space.
         weights = np.zeros((self.N, self.N))
         
@@ -57,7 +57,7 @@ class SingleBump(object):
         self.weights = weights
         
     def update_drive(self):
-        
+        '''convenience function: update drive dynamics'''
         ## Update drive position.
         self.muD += self.dV * self.dt
         if self.muD > self.N - 2 * self.sigmaE: self.dV = -self.dV
@@ -67,6 +67,7 @@ class SingleBump(object):
         return self.wD * np.exp( -( np.arange(1,self.N+1) - self.muD)**2 / (2*self.sigmaD ** 2) )
         
     def compute_dudt(self, u, r, leak, eD):
+        '''convenience function: compute du/dt'''
         return -leak * u - self.gI*np.sum(r) + self.wE*self.weights.dot(r) - \
                 self.sigmaN * np.random.normal(size=u.size)*np.sqrt(self.dt) + self.gD + eD 
         
