@@ -2,8 +2,6 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import TextBox
-%load_ext autoreload
-%matplotlib qt5
 
 def firing_rate(u, theta=0.5, beta=0.3):
     return 0.5 + 0.5 * np.tanh( (u - theta) / beta )
