@@ -3,6 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import TextBox
 
+## NOTE: The following code *requires* Matplotlib v2.1.0. TextBox widgets 
+## were not added to Matplotlib before this version: 
+## https://github.com/matplotlib/matplotlib/issues/7724/
+
 def firing_rate(u, theta=0.5, beta=0.3):
     return 0.5 + 0.5 * np.tanh( (u - theta) / beta )
 
@@ -191,7 +195,9 @@ class SingleBump(object):
         while t < self.T:
             
             ## Break loop if figure closed.
-            if plot and not plt.fignum_exists(fig.number): break
+            if plot and not plt.fignum_exists(fig.number): 
+                plt.close('all')
+                break
 
             ## Update time.
             t += self.dt
