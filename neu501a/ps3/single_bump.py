@@ -149,9 +149,10 @@ class SingleBump(object):
         t = 0 
         
         ## Preallocate space.
-        u = np.zeros(self.N)        # Membrane potential
-        r = np.zeros(self.N)        # Firing rate.
-        if self.u0: u[0] = self.u0  
+        r = np.zeros(self.N)                     # Firing rate.
+        if np.any(self.u0): u = self.u0.copy()   # Membrane potential.
+        else: u = np.zeros_like(r)
+        assert u.size == r.size
         
         ## Compute leaks.
         leak = np.ones_like(r) + self.leakN * np.random.normal(size=r.size); 
@@ -188,6 +189,9 @@ class SingleBump(object):
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
         while t < self.T:
+            
+            ## Break loop if figure closed.
+            if plot and not plt.fignum_exists(fig.number): break
 
             ## Update time.
             t += self.dt
@@ -208,7 +212,7 @@ class SingleBump(object):
             t += self.dt
             
             ## Update plot.
-            if plot:
+            if plot:                
                 
                 ## Update time.
                 ax1.set_title('t = %0.2f' %t)
