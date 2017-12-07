@@ -41,14 +41,13 @@ class Bandit(object):
             raise ValueError('Epsilon must be within [0,1] or equal to "softmax".')
         
         ## Set values.
-        self._alpha = alpha
-        self._beta = beta
-        self._epsilon = epsilon
-        self.info = dict(alpha = alpha, beta = beta, epsilon=epsilon)
+        self._alpha = np.copy(alpha)
+        self._beta = np.copy(beta)
+        self._epsilon = np.copy(epsilon)
+        self.info = dict(alpha = self._alpha, beta = self._beta, epsilon=self._epsilon)
         
     def _init_q(self, Q, R):
-        '''Convenience function to initialize Q-table. See simulate for
-        details on acceptable inputs for Q.
+        '''Convenience function to initialize Q-table.
         
         Parameters
         ----------
@@ -66,18 +65,18 @@ class Bandit(object):
         '''
         
         ## Force to NumPy array.
-        Q, R = np.array(Q, dtype=float), np.array(R, dtype=float)
+        Q, R = np.array(np.copy(Q), dtype=float), np.array(np.copy(R), dtype=float)
         
         ## Initialize Q-table.
         if not np.ndim(Q):
-            Q = np.ones_like(R) * Q
+            Q = np.ones(R.shape[1]) * Q
         elif np.ndim(Q) > 1:
             raise ValueError('Initial values for Q-table must be scalar or 1d array.')
             
         return Q, R
         
     def _select_action(self, q):
-        '''Action selection function.
+        '''Action selection function. See simulate function for details.
         
         Parameters
         ----------
@@ -88,20 +87,11 @@ class Bandit(object):
         -------
         c : int
           integer, corresponding to index of action selected.
-          
-        Notes
-        -----
-        The strategy for action selection is contingent on the epsilon parameter.
-        If epsilon is a scalar (in the range of [0, 1]), then the agent will 
-        perform greedy selection, selecting the most valuable option 1 - epsilon
-        fraction of times. If epsilon is set to "softmax", then the agent will
-        select an action probabilistically with each action probability scaled
-        by the softmax function.
         '''
         
         if self._epsilon == 'softmax':
             p = softmax(q, self._beta)
-            c = np.argmax(np.random.multinomial(1, likelihood, 1))
+            c = np.argmax(np.random.multinomial(1, p, 1))
         elif np.any(np.random.binomial(1, 1 - self._epsilon, 1)):
             c = np.argmax(q)
         else:
@@ -125,6 +115,15 @@ class Bandit(object):
           Final values in Q-table.
         C : array, shape=(n_trials)
           Choices (i.e. selected arm) on each trial.
+          
+        Notes
+        -----
+        The strategy for action selection is contingent on the epsilon parameter.
+        If epsilon is a scalar (in the range of [0, 1]), then the agent will 
+        perform greedy selection, selecting the most valuable option 1 - epsilon
+        fraction of times. If epsilon is set to "softmax", then the agent will
+        select an action probabilistically with each action probability scaled
+        by the softmax function.
         '''
         
         ## Initialize Q-table.
@@ -137,7 +136,7 @@ class Bandit(object):
         for i in np.arange(R.shape[0]):
             
             ## Select action.
-            C[i] = self._select_action(Q[i])
+            C[i] = self._select_action(Q)
             
             ## Take action / update values.                
             Q[C[i]] += self._alpha * ( R[i,C[i]] - Q[C[i]] )
