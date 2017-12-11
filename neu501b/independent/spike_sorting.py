@@ -130,6 +130,7 @@ def gap_statistic(X, n_clusters=10, n_ref=10):
     return gap
 
 def seconds_to_timeindex(t,decimals=4):
+    '''Junky convenience function for resampling.'''
     m = int(t // 60)
     s = int(np.floor(t % 60))
     ms = np.round(t - m * 60 - s, decimals)
@@ -137,6 +138,7 @@ def seconds_to_timeindex(t,decimals=4):
     return datetime.strptime(stringtime, '%M:%S.%f')
 
 def timeindex_to_seconds(index, decimals=4):
+    '''Junky convenience function for resampling.'''
     m = index.minute * 60
     s = index.second
     ms = index.microsecond * 1e-6
