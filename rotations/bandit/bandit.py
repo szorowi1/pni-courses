@@ -65,7 +65,7 @@ class Bandit(object):
         '''
         
         ## Force to NumPy array.
-        Q, R = np.array(np.copy(Q), dtype=float), np.array(np.copy(R), dtype=float)
+        Q, R = np.copy(Q).astype(float), np.copy(R).astype(float)
         
         ## Initialize Q-table.
         if not np.ndim(Q):
@@ -74,6 +74,24 @@ class Bandit(object):
             raise ValueError('Initial values for Q-table must be scalar or 1d array.')
             
         return Q, R
+    
+    def _init_score(self, Q, R, C):
+        '''Convenience function to initialize values in scoring function.'''
+        
+        ## Force to NumPy arrays.
+        Q, R, C = np.copy(Q).astype(float), np.copy(R).astype(float), np.copy(C).astype(int)
+        
+        ## Force to shape=(n_blocks, n_trials, n_arms).
+        if np.ndim(R) < 3:
+            R, C = np.expand_dims(R,0), np.expand_dims(C,0)
+            
+        ## Initialize Q-table.
+        if not np.ndim(Q):
+            Q = np.ones(R.shape[-1]) * Q
+        elif np.ndim(Q) > 1:
+            raise ValueError('Initial values for Q-table must be scalar or 1d array.')
+            
+        return Q, R, C
         
     def _select_action(self, q):
         '''Action selection function. See simulate function for details.
@@ -103,11 +121,11 @@ class Bandit(object):
         
         Parameters
         ----------
+        R : array, shape=(n_trials, n_arms)
+          Predetermined reward values for bandit task.
         Q : scalar, array shape=(n_arms,)
           Initial values for Q-table. If scalar, Q initialized as
           1-d array with all the same value.
-        R : array, shape=(n_trials, n_arms)
-          Predetermined reward values for bandit task.
         
         Returns
         -------
@@ -142,3 +160,45 @@ class Bandit(object):
             Q[C[i]] += self._alpha * ( R[i,C[i]] - Q[C[i]] )
             
         return Q, C
+    
+    def score(self, R, C, Q=False):
+        '''Estimate likelihood of observing choice behavior, C,
+        conditioned on rewards, R, and agent parameters.
+        
+        Parameters
+        ----------
+        R : array, shape=(n_blocks, n_trials, n_arms)
+          Reward values for bandit task.
+        C : array, shape=(n_blocks, n_trials)
+          Choices observed during bandit task. 
+        
+        Returns
+        -------
+        log_lik : scalar
+          Log-likelihood of model.
+          
+        Notes
+        -----
+        Assumes epsilon = "softmax". 
+        '''
+        
+        ## Initialize values.
+        Q, R, C = self._init_score(Q, R, C)
+        n_blocks, n_trials, n_arms = R.shape
+        
+        ## Compute log-likelihood.
+        log_lik = 0
+        for i in np.arange(n_blocks):
+
+            q = np.copy(Q)
+
+            for j in np.arange(n_trials):
+
+                ## Compute likelihood.
+                theta = softmax(q, beta=self._beta)
+                log_lik += np.log(theta[C[i,j]])
+
+                ## Update Q-value.
+                q[C[i,j]] += self._alpha * ( R[i,j,C[i,j]] - q[C[i,j]] )
+                
+        return log_lik
