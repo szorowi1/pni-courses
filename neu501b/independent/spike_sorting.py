@@ -65,6 +65,7 @@ def peak_finder(arr, thresh):
     '''
     assert arr.ndim == 1
     clusters, ix = measurements.label(arr > thresh)
+    if not ix: return np.array([]), np.array([])
     peak_loc = np.concatenate(measurements.maximum_position(arr, labels=clusters, index=np.arange(ix)+1))
     peak_mag = measurements.maximum(arr, labels=clusters, index=np.arange(ix)+1)
     return peak_loc, peak_mag
@@ -129,28 +130,15 @@ def gap_statistic(X, n_clusters=10, n_ref=10):
     
     return gap
 
-def seconds_to_timeindex(t,decimals=4):
-    '''Junky convenience function for resampling.'''
-    m = int(t // 60)
-    s = int(np.floor(t % 60))
-    ms = np.round(t - m * 60 - s, decimals)
-    stringtime = '%0.2d:%0.2d.%s' %(m,s,str(ms)[2:])
-    return datetime.strptime(stringtime, '%M:%S.%f')
-
-def timeindex_to_seconds(index, decimals=4):
-    '''Junky convenience function for resampling.'''
-    m = index.minute * 60
-    s = index.second
-    ms = index.microsecond * 1e-6
-    return np.round(m + s + ms, decimals)
 
 def plot_spikes(times, data, peak_loc, tmin=-5e-4, tmax=5e-4, clusters=False, 
                 threshold=False, colors=False, null_color='#34495e', ax=False):
-
+    '''Junky convenience function for plotting spikes.'''
+    
     ## Initialize parameters.
     if not ax: fig, ax = plt.subplots(1,1)
-    if not np.any(colors): colors = sns.color_palette(n_colors=np.max(clusters)+1)
     if not np.any(clusters): clusters = np.zeros_like(peak_loc, dtype=int)
+    if np.any(peak_loc) and not np.any(colors): colors = sns.color_palette(n_colors=clusters.astype(int).max()+1)
 
     ## Plot data.
     ax.plot(times, data, lw=0.5, color=null_color, alpha=0.4)
