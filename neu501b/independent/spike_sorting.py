@@ -1,17 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from datetime import datetime
 from scipy.ndimage import measurements
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
-#
-# The functions below are used in the spike sorting pipeline 
-# for the crayfish experiments as part of the 501b independent
-# project. Virtually all of these functions draw from external 
-# references in some way or another. The most useful references
-# were:
-#
+
 # Spike detection and preprocessing
 #   Quian-Quiroga et al. (2004): Unsupervised Spike Detection and Sorting with Wavelets and Superparamagnetic Clustering
 #   Gonzalo-Rey et al. (2015): Past, present and future of spike sorting techniques
@@ -129,29 +122,3 @@ def gap_statistic(X, n_clusters=10, n_ref=10):
         gap[i] = np.mean(np.log(Wkb)) - np.log(Wk)
     
     return gap
-
-
-def plot_spikes(times, data, peak_loc, tmin=-5e-4, tmax=5e-4, clusters=False, 
-                threshold=False, colors=False, null_color='#34495e', ax=False):
-    '''Junky convenience function for plotting spikes.'''
-    
-    ## Initialize parameters.
-    if not ax: fig, ax = plt.subplots(1,1)
-    if not np.any(clusters): clusters = np.zeros_like(peak_loc, dtype=int)
-    if np.any(peak_loc) and not np.any(colors): colors = sns.color_palette(n_colors=clusters.astype(int).max()+1)
-
-    ## Plot data.
-    ax.plot(times, data, lw=0.5, color=null_color, alpha=0.4)
-    
-    ## Plot spikes.
-    for loc, cluster in zip(peak_loc, clusters):
-        ix = np.logical_and(times >= loc + tmin, times <= loc + tmax)
-        ax.plot(times[ix], data[ix], color=colors[cluster])
-
-    ## Plot threshold.
-    if threshold: 
-        x1, x2 = ax.get_xlim()
-        ax.hlines(threshold, x1, x2, color='k', lw=0.5, linestyle='--')
-        ax.set_xlim(x1,x2)
-        
-    return ax
