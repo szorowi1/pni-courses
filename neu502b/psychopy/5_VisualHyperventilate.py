@@ -6,14 +6,32 @@ from psychopy import clock, core, event, logging, visual
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 def QuitTask():
+    W.mouseVisible = True
     W.close()
     core.quit()
     
 def CheckForEscape():
     '''Check for 'escape' key.'''
-    KeyPress = event.getKeys()
-    if 'escape' in KeyPress: QuitTask()
+    KeyPress = event.getKeys(keyList=['escape'])
+    if KeyPress: QuitTask()
     event.clearEvents()
+    
+def InstructionsBlock(sec):
+    '''Present instructions for XX seconds.'''
+    
+    Instr = visual.TextStim(W, units='norm', pos=(0,0), antialias=False, bold=True, 
+                            color=(139,0,0), colorSpace='rgb255', autoLog=False)
+        
+    ## Wait.
+    timer = clock.CountdownTimer(sec)
+    while timer.getTime() > 0:
+        
+        Instr.setText('%s in %0.0f' %(task, timer.getTime()))
+        Instr.draw()
+        W.flip()
+        
+        ## Check keys.
+        CheckForEscape()
     
 def FixationBlock(sec):
     '''Block of fixation cross for XX seconds.'''
@@ -42,14 +60,10 @@ def VisualHyperventilateBlock(rp, ap):
     ## Breath-hold only.
     timer = clock.CountdownTimer(10)
     while timer.getTime() > 0:
-
-        digit = int(ceil(timer.getTime()))
         
         ## Update text.
-        TopLine.setText(instr[10 - digit])
-        TopLine.draw()
-        BottomLine.setText('%0.0f' %(1 + digit % 2))
-        BottomLine.draw()
+        Counter.setText('%0.0f' %(1 + ceil(timer.getTime()) % 2))
+        Counter.draw()
         W.flip()
         
         ## Check keys.
@@ -61,8 +75,6 @@ def VisualHyperventilateBlock(rp, ap):
     ## Breathhold + radial checkerboard.
     timer = clock.CountdownTimer(10)
     while timer.getTime() > 0:
-
-        digit = int(ceil(timer.getTime()))
         
         ## Update radial checkerboard.
         RCB.setRadialPhase(0.025, rp)
@@ -70,10 +82,8 @@ def VisualHyperventilateBlock(rp, ap):
         RCB.draw()
         
         ## Update text.
-        TopLine.setText(instr[20 - digit])
-        TopLine.draw()
-        BottomLine.setText('%0.0f' %(1 + digit % 2))
-        BottomLine.draw()
+        Counter.setText('%0.0f' %(1 + ceil(timer.getTime()) % 2))
+        Counter.draw()
         W.flip()
         
         ## Check keys.
@@ -90,6 +100,7 @@ def VisualHyperventilateBlock(rp, ap):
         RCB.setRadialPhase(0.025, rp)
         RCB.setAngularPhase(0.025, ap)
         RCB.draw()
+        fix.draw()
         W.flip()
         
         ## Check keys.
@@ -100,13 +111,11 @@ def VisualHyperventilateBlock(rp, ap):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
   
 ## Define block structure.
-blocks = [FixationBlock, VisualHyperventilateBlock, FixationBlock, VisualHyperventilateBlock,
-          FixationBlock, VisualHyperventilateBlock, FixationBlock, VisualHyperventilateBlock,
-          FixationBlock, VisualHyperventilateBlock, FixationBlock, VisualHyperventilateBlock,
-          FixationBlock]
-timing = [10, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
-radial_phase  = ['', '+', '', '+', '', '-', '', '-', '', '+', '', '-', '']
-angular_phase = ['', '+', '', '-', '', '-', '', '+', '', '-', '', '-', '']
+blocks = [FixationBlock, InstructionsBlock, VisualHyperventilateBlock] * 6 + [FixationBlock]
+timing = [7, 3, 30] + [27, 3, 30] * 5 + [30]
+radial_phase  = ['', '', '+', '', '', '+', '', '', '-', '', '', '-', '', '', '+', '', '', '-', '']
+angular_phase = ['', '', '+', '', '', '-', '', '', '-', '', '', '+', '', '', '-', '', '', '-', '']
+task = 'Hyperventilate'
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ### Preprations.
@@ -117,22 +126,20 @@ msg = 'Initializing VISUAL-HYPERVENTILATE task.\n\nPlease enter subject ID.\n'
 f = raw_input(msg)
 
 ## Open window.
-W = visual.Window(fullscr=False, units='norm', color=[-1,-1,-1], autoLog=False)
+W = visual.Window(fullscr=True, units='norm', color=[-1,-1,-1], autoLog=False)
+W.mouseVisible = False
 
 ## Prepare fixation cross.
-fix = visual.GratingStim(W, mask='cross', units='norm', pos=(0,0), 
-                         sf=0, size=(0.1,0.1), color=[1,1,1])
+fix = visual.GratingStim(W, mask='cross', units='norm', pos=(0,0), sf=0, size=(0.1,0.1), 
+                         color=(139,0,0), colorSpace='rgb255')
 
 ## Prepare rotating checkerboard (RCB).
 RCB = visual.RadialStim(W, units='norm', pos=(0,0), size=(1.5,1.5),
                         radialCycles=8, angularCycles=12, autoLog=False)
 
 ## Prepare text.
-TopLine = visual.TextStim(W, units='norm', pos=(0,0.075), antialias=False, 
-                          bold=True, color=(139,0,0), colorSpace='rgb255', autoLog=False)
-
-BottomLine = visual.TextStim(W, units='norm', pos=(0,-0.075), antialias=False,
-                             bold=True, color=(139,0,0), colorSpace='rgb255', autoLog=False)
+Counter = visual.TextStim(W, units='norm', pos=(0,0), antialias=False, bold=True, 
+                          color=(139,0,0), colorSpace='rgb255', autoLog = False)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ### Wait for scanner.

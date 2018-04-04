@@ -5,16 +5,17 @@ from psychopy import clock, core, event, logging, visual
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 def QuitTask():
+    W.mouseVisible = True
     W.close()
     core.quit()
     
 def CheckForEscape():
     '''Check for 'escape' key.'''
-    KeyPress = event.getKeys()
-    if 'escape' in KeyPress: QuitTask()
+    KeyPress = event.getKeys(keyList=['escape'])
+    if KeyPress: QuitTask()
     event.clearEvents()
     
-def FixationBlock(sec):
+def FixationBlock(sec, instr=False):
     '''Block of fixation cross for XX seconds.'''
     
     ## Draw/log fixation cross.
@@ -25,6 +26,11 @@ def FixationBlock(sec):
     ## Wait.
     timer = clock.CountdownTimer(sec)
     while timer.getTime() > 0:
+        
+        ## If instructions.
+        if instr and timer < 2: 
+            instr.draw()
+            W.flip()
         
         ## Check keys.
         CheckForEscape()
@@ -43,6 +49,7 @@ def CheckerBoardBlock(sec, rp='+', ap='+'):
         RCB.setRadialPhase(0.025, rp)
         RCB.setAngularPhase(0.025, ap)
         RCB.draw()
+        fix.draw()
         W.flip()
 
         ## Check keys.
@@ -53,10 +60,7 @@ def CheckerBoardBlock(sec, rp='+', ap='+'):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
   
 ## Define block structure.
-blocks = [FixationBlock, CheckerBoardBlock, FixationBlock, CheckerBoardBlock,
-          FixationBlock, CheckerBoardBlock, FixationBlock, CheckerBoardBlock,
-          FixationBlock, CheckerBoardBlock, FixationBlock, CheckerBoardBlock,
-          FixationBlock]
+blocks = [FixationBlock, CheckerBoardBlock] * 6 + [FixationBlock]
 timing = [10, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20]
 radial_phase  = ['', '+', '', '+', '', '-', '', '-', '', '+', '', '-', '']
 angular_phase = ['', '+', '', '-', '', '-', '', '+', '', '-', '', '-', '']
@@ -70,11 +74,12 @@ msg = 'Initializing VISUAL-CONTROL task.\n\nPlease enter subject ID.\n'
 f = raw_input(msg)
 
 ## Open window.
-W = visual.Window(fullscr=False, units='norm', color=[-1,-1,-1], autoLog=False)
+W = visual.Window(fullscr=True, units='norm', color=[-1,-1,-1], autoLog=False)
+W.mouseVisible = False
 
 ## Prepare fixation cross.
-fix = visual.GratingStim(W, mask='cross', units='norm', pos=(0,0), 
-                         sf=0, size=(0.1,0.1), color=[1,1,1])
+fix = visual.GratingStim(W, mask='cross', units='norm', pos=(0,0), sf=0, size=(0.1,0.1), 
+                         color=(139,0,0), colorSpace='rgb255')
 
 ## Prepare rotating checkerboard (RCB).
 RCB = visual.RadialStim(W, units='norm', pos=(0,0), size=(1.5,1.5),

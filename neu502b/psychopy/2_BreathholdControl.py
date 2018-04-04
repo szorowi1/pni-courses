@@ -6,14 +6,32 @@ from psychopy import clock, core, event, logging, visual
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 def QuitTask():
+    W.mouseVisible = True
     W.close()
     core.quit()
     
 def CheckForEscape():
     '''Check for 'escape' key.'''
-    KeyPress = event.getKeys()
-    if 'escape' in KeyPress: QuitTask()
+    KeyPress = event.getKeys(keyList=['escape'])
+    if KeyPress: QuitTask()
     event.clearEvents()
+    
+def InstructionsBlock(sec):
+    '''Present instructions for XX seconds.'''
+    
+    Instr = visual.TextStim(W, units='norm', pos=(0,0), antialias=False, bold=True, 
+                            color=(139,0,0), colorSpace='rgb255', autoLog=False)
+        
+    ## Wait.
+    timer = clock.CountdownTimer(sec)
+    while timer.getTime() > 0:
+        
+        Instr.setText('%s in %0.0f' %(task, timer.getTime()))
+        Instr.draw()
+        W.flip()
+        
+        ## Check keys.
+        CheckForEscape()
     
 def FixationBlock(sec):
     '''Block of fixation cross for XX seconds.'''
@@ -37,21 +55,14 @@ def BreathHoldBlock(sec):
     logging.log(level=logging.EXP, msg='Breath hold')    
     
     ## Run breath-hold task.
-    digit = 999
     timer = clock.CountdownTimer(sec)
     while timer.getTime() > 0:
         
-        ## Get integer time of count.
-        s = ceil(timer.getTime())
+        ## Update text.
+        Counter.setText('%0.0f' %timer.getTime())
+        Counter.draw()
+        W.flip()
         
-        ## If 1s has elapsed, update.
-        if s < digit:
-            digit = s
-            BottomLine.setText('%0.0f' %digit)
-            BottomLine.draw()
-            TopLine.draw()
-            W.flip()
-            
         ## Check keys.
         CheckForEscape()
 
@@ -60,11 +71,9 @@ def BreathHoldBlock(sec):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
   
 ## Define block structure.
-blocks = [FixationBlock, BreathHoldBlock, FixationBlock, BreathHoldBlock,
-          FixationBlock, BreathHoldBlock, FixationBlock, BreathHoldBlock,
-          FixationBlock, BreathHoldBlock, FixationBlock, BreathHoldBlock,
-          FixationBlock]
-timing = [10, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40]
+blocks = [FixationBlock, InstructionsBlock, BreathHoldBlock] * 6 + [FixationBlock]
+timing = [7, 3, 20] + [37, 3, 20] * 5 + [40]
+task = 'Breath Hold'
     
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ### Preprations.
@@ -75,18 +84,16 @@ msg = 'Initializing BREATHHOLD-CONTROL task.\n\nPlease enter subject ID.\n'
 f = raw_input(msg)
 
 ## Open window.
-W = visual.Window(fullscr=False, units='norm', color=[-1,-1,-1], autoLog=False)
+W = visual.Window(fullscr=True, units='norm', color=[-1,-1,-1], autoLog=False)
+W.mouseVisible = False
 
 ## Prepare fixation cross.
-fix = visual.GratingStim(W, mask='cross', units='norm', pos=(0,0), 
-                         sf=0, size=(0.1,0.1), color=[1,1,1])
+fix = visual.GratingStim(W, mask='cross', units='norm', pos=(0,0), sf=0, size=(0.1,0.1), 
+                         color=(139,0,0), colorSpace='rgb255')
 
 ## Prepare text.
-TopLine = visual.TextStim(W, text='Breath Hold', units='norm', pos=(0,0.075), 
-                          antialias=False, color=(1,1,1), autoLog=False)
-
-BottomLine = visual.TextStim(W, units='norm', pos=(0,-0.075), antialias=False,
-                             color=(1,1,1), autoLog = False)
+Counter = visual.TextStim(W, units='norm', pos=(0,0), antialias=False, bold=True, 
+                          color=(139,0,0), colorSpace='rgb255', autoLog = False)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ### Wait for scanner.
