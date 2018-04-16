@@ -9,4 +9,3 @@ Repository for code written as part of coursework at the Princeton Neuroscience 
 | neu502a    | Neuroscience: from molecules to systems to behavior | Spring 2018 | Problem sets for course.                                      |
 | neu502b    | Neuroscience: from molecules to systems to behavior | Spring 2018 | Problem sets for course.                                      |
 | neu560    | Statistical Modeling and Analysis of Neural Data     | Spring 2018 | Notes and projects for course. |
-| tutorials  | Extracurricular                | 2017-2018 | Code potpourri, mostly self-taught exercises          |
