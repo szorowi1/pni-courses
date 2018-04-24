@@ -32,11 +32,11 @@ def excursion_mc(X, u, tail=0, alpha=0.05):
     
     ## Calculate marginal probabilities.
     if tail == 0:
-        rho = (np.abs(B) > u).mean(axis=-1)
+        rho = (np.abs(X) > u).mean(axis=-1)
     elif tail == 1:
-        rho = (B > u).mean(axis=-1)
+        rho = (X > u).mean(axis=-1)
     elif tail == -1:
-        rho = (B < u).mean(axis=-1)
+        rho = (X < u).mean(axis=-1)
     else:
         raise ValueError('tail must be -1 or 0 or 1')
     

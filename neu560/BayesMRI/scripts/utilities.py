@@ -4,8 +4,18 @@ from mne import spatial_tris_connectivity as tris_to_adj
 from pystan.misc import _calc_starts
 from scipy.sparse import coo_matrix
 
+def inv_logit(arr):
+    '''Elementwise inverse logit (logistic) function.'''
+    return 1 / (1 + np.exp(-arr))
+
+def phi_approx(arr):
+    '''Elementwise fast approximation of the cumulative unit normal. 
+    For details, see Bowling et al. (2009). "A logistic approximation 
+    to the cumulative normal distribution."'''
+    return inv_logit(0.07056 * arr ** 3 + 1.5976 * arr)
+
 def adj_to_ugl(A):
-    
+    '''Convert adjacency matrix to unweighted graph laplacian'''
     ## Extract metadata.
     row, col, data = A.row, A.col, A.data
     
@@ -21,7 +31,7 @@ def adj_to_ugl(A):
     return UGL
 
 def assemble_advi_params(samples, params, dims):
-    
+    '''Reassemble parameters from ADVI'''
     ## Calculate dimensions.
     starts = _calc_starts(dims)
     
