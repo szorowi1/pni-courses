@@ -77,8 +77,8 @@ def permutation_testing(WY, WX, n_task, n_perm=5000):
         ## Compute test statistic.
         F_star = B_star / se
 
-        ## Compare to observed statistic.
-        p += (F_star.max(axis=-1).reshape(-1,1) > F).astype(int)
+        ## Compare to observed statistic (two-tailed).
+        p += (np.abs(F_star).max(axis=-1).reshape(-1,1) > np.abs(F)).astype(int)
 
     ## Convert to p-values.
     p /= n_perm + 1
