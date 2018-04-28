@@ -1,28 +1,30 @@
 #!/bin/csh -f
-setenv SUBJECTS_DIR /media/szoro/SZORO1/pni-courses/neu502b/fmri/preproc/freesurfer
-setenv ROOT_DIR /media/szoro/SZORO1/pni-courses/neu502b/fmri/first_levels 
+setenv ROOT_DIR ../first_levels
 
-set SUBJECTS = ("sub-01" "sub-02")
-set TASKS = ("visualcontrol" "visualhyperventilate" "visualbreathhold")
+## Locate files
+set FILES = (`find $ROOT_DIR -type f -name "**fsaverage5**.nii.gz" | sort`)
 
-foreach SUBJ ($SUBJECTS)
+## Main loopl
+foreach FP ($FILES)
 
-    foreach TASK ($TASKS)
+    ## Extract filename from path.
+    set FN = (`basename $FP`)
 
-        foreach SPACE ("L" "R")
+    ## Get subject name.
+    set SUBJ = (`echo $FN | cut -c1-6`)
 
-           ## Define hemi
-           if ($SPACE == "L") then
-               set HEMI = lh
-           else
-               set HEMI = rh
-           endif
+    ## Check hemisphere.
+    if ( "$FN" =~ *fsaverage5.L* ) then
+        set HEMI = "lh"
+    else 
+        set HEMI = "rh"
+    endif
 
-           ## Smooth data
-           mri_surf2surf --hemi $HEMI --srcsubject fsaverage5 --srcsurfval $ROOT_DIR/$TASK/{$SUBJ}_task-{$TASK}_space-fsaverage5.{$SPACE}.psc.nii.gz --trgsubject $SUBJ --trgsurfval $ROOT_DIR/$TASK/{$SUBJ}_task-{$TASK}_space-{$SUBJ}.{$SPACE}.psc.nii.gz --nsmooth-out 3
-
-        end
+    ## Define out file.
+    set TARG = `echo $FP | sed "s;fsaverage5;$SUBJ;g"`
     
-    end
+    ## Interpolate / smooth data
+    mri_surf2surf --hemi $HEMI --srcsubject fsaverage5 --srcsurfval $FP --trgsubject $SUBJ --trgsurfval $TARG --nsmooth-out 3
+
 
 end
