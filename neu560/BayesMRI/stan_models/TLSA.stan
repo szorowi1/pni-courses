@@ -40,6 +40,13 @@ data {
     row_vector[V] Y[T];     // Observed data
     row_vector[K] X[T];     // Task regressors
     matrix[V, D] R;         // Voxel coordinates
+    row_vector[D] loc_pr[Z];
+        
+}
+transformed data{
+    
+    cholesky_factor_cov[D] L;
+    L = cholesky_decompose(diag_matrix(rep_vector(0.1, D)));
     
 }
 parameters {
@@ -49,8 +56,9 @@ parameters {
     real<lower=0> sigma;    // Variance on residual error
 
     // Basis functions
-    vector<lower=0>[Z] fwhm;     // Halfway point of basis functions
-    vector<lower=0>[Z] scale;    // Decay slope of basis fucntions 
+    row_vector<lower=0,upper=10>[D] loc[Z];
+    vector<lower=0>[Z] fwhm;
+    vector<lower=0>[Z] scale;
     
 }
 model {
@@ -58,10 +66,6 @@ model {
     // Generated quantities
     matrix[V, Z] F;         // Latent basis functions
     row_vector[V] mu;       // Estimated mean
-    row_vector[D] loc[Z];    
-    
-    loc[1] = [2.5, 2.5];
-    loc[2] = [7.5, 7.5];
     
     // Priors
     W ~ normal(0, 1);
@@ -69,6 +73,7 @@ model {
     scale ~ normal(0, 1);
     
     for (i in 1:Z){
+        loc[i] ~ multi_normal_cholesky(loc_pr[i], L);
         F[:,i] = lbf( R, loc[i], fwhm[i], scale[i] );
     }    
     

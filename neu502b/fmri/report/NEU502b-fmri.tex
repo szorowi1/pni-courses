@@ -38,15 +38,17 @@ Please provide an abstract of no more than 150 words. Your abstract should expla
 
 \section{Introduction}
 
-The goal of functional magnetic resonance imaging (fMRI) is to measure changes in the blood oxygenation level dependent (BOLD) signal as a proxy for induced changes in neural activity. This goal is stymied, however, by the fact that the signal changes of interest are often orders of magnitude smaller than artifactual noise caused by scanner noise, subject motion, and respiration (Huettel et al., 2004; Caballero-Gaudes and Reynolds, 2017).
+The goal of functional magnetic resonance imaging (fMRI) is to measure variation in the blood oxygenation level dependent (BOLD) signal as a proxy for changes in neural activity. This goal is stymied by the fact that the signals of interest are often much smaller than the noise present both the scanner and participant (Huettel et al., 2004; Caballero-Gaudes and Reynolds, 2017). 
 
-Respiratory artifact is mediated largely by changes in arterial levels of carbon dioxide. Hypercapnic events (e.g. breath-holding) induce dramatic decreases in the BOLD signal (Kastrup et al., 1999a, 1999b). Even subtle changes in breathing depth and rate, which occur naturally (Van den Aardweg and Karemaker, 2002; Birn et al., 2006), can lead to significant changes in BOLD signal (Wise et al., 2004; Birn et al., 2006; Bianciardi et al., 2009a, 2009b). Despite this, cardiac and respiratory fluctuations account for less than 10\% of the noise on average over the whole brain (Shmueli et al., 2007; Bianciardi et al., 2009a, 2009b). As such, many neuroimaging studies ignore respiratory noise when analyzing task-based fMRI data.
+Participant respiration is one such source of noise that is mediated by changes in arterial levels of carbon dioxide (thus directly impacting BOLD measurements). Respiratory events can be categorized as either hypercapnic (i.e. an increase in arterial CO\textsubscript{2}) or hypocapnic (i.e. a decrease in arterial CO\textsubscript{2}). Previous research has shown that induced hypercapnic events (e.g. breath-holding) can cause substantial increases in the BOLD signal (Kastrup et al., 1999a, 1999b). Moreover, even small naturally-occurring changes in breathing patterns can yield substantial modulations of the BOLD signal (Van den Aardweg and Karemaker, 2002; Wise et al., 2004; Birn et al., 2006; Bianciardi et al., 2009a, 2009b). Despite this, previous methodological studies showed that respiratory and related cardiac signals account for less than 10\% of the noise on average over the whole brain (Shmueli et al., 2007; Bianciardi et al., 2009a, 2009b). Consequently many neuroimaging studies ignore respiratory noise when analyzing task-based fMRI data.
 
-In recent years, there has been a renewed interest in respiratory artifact in task-based fMRI for two reasons. The first is a growing awareness of task-correlated changes in breathing rate, wherein respiratory artifact is time-locked to some event of interest.(Napadow et al., 2008; Birn et al., 2009; Huijbers et al., 2014) Task-correlated respiratory artifact may mask effects of interest or yield spurious findings if uncorrected for. The second is a growing realization that an especially pernicious form of motion artifact is likely caused by sudden changes in respiration (e.g. sharp inhale/exhale).(Power et al., 2018) This has prompted new research into novel methods for de-noising contaminated data,(Kundu et al., 2013; Power et al., 2018) and also suggests a need for improved coaching of subjects participating in fMRI studies.
+More recently, there has been a renewed interest in investigating and controlling for respiratory noise for task-based fMRI. One reason for this is growing awareness of task-correlated changes in breathing rate, wherein changes in respiration are time-locked to an experimental event of interest (Napadow et al., 2008; Birn et al., 2009; Huijbers et al., 2014). If unaccounted for, task-correlated respiratory artifact cause spurious findings (false-positives) or mask true effects (false-negatives). A second reason is new research suggesting that common artifacts previously attributed to motion are better characterized as resulting from transient respiratory events (e.g. sudden inhale/exhale) (Power et al., 2018). This has prompted renewed interest in methods for de-noising contaminated task-based fMRI data (Kundu et al., 2013; Power et al., 2018). 
 
-For the NEU502b fMRI project, the class will investigate the effects of respiratory artifact on task-based fMRI data. Specifically, we will investigate the extent to which states of hypercapnia (excess CO2) and hypocapnia (diminished CO2) mask BOLD activity measured during the classic visual checkerboard paradigm. Hypercapnic and hypocapnic states will be induced using the breath-hold and controlled breathings tasks, respectively.(Birn et al., 2009; Bright et al., 2009) (If time permits, a novel sharp-inhale paradigm will also be scanned.) A list of possible analyses are proposed below. 
+Here, we investigate the effects of induced respiratory events on measuring fMRI BOLD signal. Specifically we explore the extent to which hypercapnic and hypocapnic events, induced by intentional breath-holding and hyperventilation, distort BOLD measurements during a visual stimulation paradigm. We show that task-correlated changes in respiration result in substantial increase in false-positive activations and reduce detection of true activation. We also show that one common nuisance regressors, CompCor (Behzadi et al., 2007), derived from the white matter and cerebrospinal fluid (CSF) can significantly improve BOLD signal detection, though imperfectly. 
 
 \section{Results}
+Changes in BOLD signal in response to visual stimulation was measured in two participants in isolation and in the presence of experimentally induced respiratory events (see \textbf{Materials and methods} for details). First in the visual control condition (VZ), participants viewed flashing, rotating visual checkerboards. Next, participants viewed the same stimuli while either holding their breaths (V-BH) or hyperventilating (V-HV). The whole-brain response to visual stimulation was estimated through regression with a boxcar function locked to the timings of the visual checkerboard convolved with the canonical hemodynamic response function. In addition,  runs of breath-holding and hyperventilation were collected separately to measure the characteristic response on the BOLD signal.  
+
 
 \subsection{Visual Stimulation}
 To measure the effects of task-correlated respiratory artifact on the BOLD signal, a baseline must first be established. Participants viewed six blocks of flashing visual checkerboard each lasting 20s. Voxel-wise whole-brain GLM regression was performed using an idealized response to the checkerboard. Visual stimulation with the checkerboard yielded robust activation in bilateral visual cortex of both participants (Figure 1a/b).  For each participant and hemisphere, a mask comprised of voxels belonging to the largest contiguous activation cluster was created. The average timecourse of voxels within each mask is presented is also presented (Figure 1c). On average, significantly activated voxels showed a 3.1 (sd=2.23) and 3.1 (sd=1.66) percent signal change in the left and right visual cortex for participant 1;  significantly activated voxels showed a 1.69 (sd=1.26) and 1.75 (sd=1.03) percent signal change in the left and right visual cortex for participant 2. 
@@ -55,8 +57,8 @@ To measure the effects of task-correlated respiratory artifact on the BOLD signa
 \centerline{%
 \resizebox{1.0\textwidth}{!}{\includegraphics[trim={0 9cm 0 0},clip]{fig1.png}}%
 }
-\caption{\textbf{BOLD Change to Visual Stimulation}}
-
+\caption{\textbf{BOLD signal in response to visual stimulation}}
+\par Top: Percent signal change maps. Thresholded only to significant voxels using permutation testing (5000 iterations) and FWE correction. Bottom: Timecourses for voxels from largest cluster for each participant \& hemisphere.
 \end{figure}
 
 Next, the effects of task-correlated respiratory artifact was measured in the presence of a hypercapniac and hypocapniac (breath-holding and hyperventilation, respectively). When the response to visual stimulation was measured without accounting for breath-holding, significant BOLD activation was detected across the cortex (Figure 2a / S1a). Conversely, when the response to visual stimulation was measured without accounting for hyperventilation, significant BOLD deactivation was detected across the cortex (Figure 2b / S1b). These results show a significant reduction in detection power (defined as accuracy in correctly estimating BOLD changes where there is, not not where there isn’t) in the presence of uncontrolled respiratory-artifact. 
@@ -112,6 +114,8 @@ In summary, task-correlated respiratory artifact, when uncontrolled for, can res
 All experimental procedures were approved by the NEU502b course instructors. Two participants (both female, age 25) volunteered to participate in this experiment as part of a course on cognitive neuroscience methods. Both participants reported being right-handed and without a current or past diagnosis of a psychiatric or neurological disorder.
 
 \subsection{Task Paradigms}
+(Birn et al., 2009; Bright et al., 2009) 
+
 \textbf{Visual Stimulation} The visual localizer task was used to detect BOLD response visual cortex. To evoke a BOLD response, participants viewed a rotating and flashing black-and-white checkerboard stimulus. Each stimulus lasted 20 s followed by 20 s of fixation. The checkerboard stimulus was presented six total times. The run lasted 250 s.
 
 \textbf{Breathhold} The breathholding task was used to measure the physiological BOLD response to a hypercapniac event. Participants were instructed to hold their breath for 20 s, followed by a recovery period of 40 s. Participants completed six total trials of breathholding. The run lasted 370 s.
@@ -150,25 +154,5 @@ For all analyses, additional nuisance regressors were included. These included t
 
 \nocite{*} % This command displays all refs in the bib file. PLEASE DELETE IT BEFORE YOU SUBMIT YOUR MANUSCRIPT!
 \bibliography{NEU502b-fmri}
-
-\begin{tabular}{c l l l r r}
-\toprule
-{Subject} & Analysis & L PSC & R PSC & F-val & p-val \\
-\midrule
-\multirow{5}{*}{01} & Viz          & 3.11 (0.33) & 3.13 (0.35) &       & \\\cline{2-6}
-                    & BH           & 3.13 (0.38) & 2.98 (0.36) & 0.04  & 0.848\\
-                    & BH + CompCor & 2.33 (0.20) & 2.25 (0.20) & 13.42 & <0.001\\
-                    & HV           & 1.53 (0.17) & 1.41 (0.16) & 38.19 & <0.001\\
-                    & HV + CompCor & 2.28 (0.18) & 2.16 (0.17) & 17.29 & <0.001\\
-\multirow{5}{*}{02} & Viz          & 1.67 (0.27) & 1.70 (0.23) &       & \\\cline{2-6}
-                    & BH           & 0.54 (0.23) & 0.41 (0.24) & 24.45 & <0.001\\
-                    & BH + CompCor & 0.30 (0.14) & 0.18 (0.14) & 73.14 & <0.001\\
-                    & HV           & 0.44 (0.14) & 1.05 (0.14) & 20.94 & <0.001\\
-                    & HV + CompCor & 0.97 (0.13) & 1.59 (0.13) & 5.80 & 0.016 \\
-\bottomrule
-\end{tabular}
-
-\textbf{Table 1. Percent Signal Change in Visual Cortex} Summary of estimated percent change of the BOLD signal in visual cortex across the tested models. Estimates are divided by subject (01/02) and hemisphere (left/right). The F statistic corresponding to the pairwise comparison of models to baseline (collapsing across hemisphere) is presented.
-
 
 \end{document}
