@@ -1,0 +1,411 @@
+@article{Woolrich2001-no,
+	Abstract = {In functional magnetic resonance imaging statistical analysis
+              there are problems with accounting for temporal autocorrelations
+              when assessing change within voxels. Techniques to date have
+              utilized temporal filtering strategies to either shape these
+              autocorrelations or remove them. Shaping, or ``coloring,''
+              attempts to negate the effects of not accurately knowing the
+              intrinsic autocorrelations by imposing known autocorrelation via
+              temporal filtering. Removing the autocorrelation, or
+              ``prewhitening,'' gives the best linear unbiased estimator,
+              assuming that the autocorrelation is accurately known. For
+              single-event designs, the efficiency of the estimator is
+              considerably higher for prewhitening compared with coloring.
+              However, it has been suggested that sufficiently accurate
+              estimates of the autocorrelation are currently not available to
+              give prewhitening acceptable bias. To overcome this, we consider
+              different ways to estimate the autocorrelation for use in
+              prewhitening. After high-pass filtering is performed, a Tukey
+              taper (set to smooth the spectral density more than would
+              normally be used in spectral density estimation) performs best.
+              Importantly, estimation is further improved by using nonlinear
+              spatial filtering to smooth the estimated autocorrelation, but
+              only within tissue type. Using this approach when prewhitening
+              reduced bias to close to zero at probability levels as low as 1 x
+              10(-5).},
+	Author = {Woolrich, M W and Ripley, B D and Brady, M and Smith, S M},
+	Journal = {Neuroimage},
+	Language = {en},
+	Month = dec,
+	Number = 6,
+	Pages = {1370--1386},
+	Title = {Temporal autocorrelation in univariate linear modeling of {FMRI} data},
+	Volume = 14,
+	Year = 2001}
+
+@inproceedings{Stegle2011-ep,
+	Author = {Stegle, Oliver and Lippert, Christoph and Mooij, Joris M and Lawrence, Neil D and Borgwardt, Karsten M},
+	Booktitle = {Advances in neural information processing systems},
+	Pages = {630--638},
+	Title = {Efficient inference in matrix-variate gaussian models with$\backslash$iid observation noise},
+	Year = 2011}
+
+@article{Penny2005-eq,
+	Abstract = {We describe a Bayesian estimation and inference procedure for
+              fMRI time series based on the use of General Linear Models
+              (GLMs). Importantly, we use a spatial prior on regression
+              coefficients which embodies our prior knowledge that evoked
+              responses are spatially contiguous and locally homogeneous.
+              Further, using a computationally efficient Variational Bayes
+              framework, we are able to let the data determine the optimal
+              amount of smoothing. We assume an arbitrary order Auto-Regressive
+              (AR) model for the errors. Our model generalizes earlier work on
+              voxel-wise estimation of GLM-AR models and inference in GLMs
+              using Posterior Probability Maps (PPMs). Results are shown on
+              simulated data and on data from an event-related fMRI experiment.},
+	Author = {Penny, William D and Trujillo-Barreto, Nelson J and Friston, Karl J},
+	Journal = {Neuroimage},
+	Language = {en},
+	Month = jan,
+	Number = 2,
+	Pages = {350--362},
+	Title = {Bayesian {fMRI} time series analysis with spatial priors},
+	Volume = 24,
+	Year = 2005}
+
+@article{Worsley1996-ri,
+	Abstract = {PET images of cerebral blood flow (CBF) in an activation study
+              are usually smoothed to a resolution much poorer than the
+              intrinsic resolution of the PET camera. This is done to reduce
+              noise and to overcome problems caused by neuroanatomic
+              variability among different subjects undertaking the same
+              experimental task. In many studies the choice of this smoothing
+              is arbitrarily fixed at about 20 mm FWHM, and the resulting
+              statistical field or parametric map is searched for local maxima.
+              Poline and Mazoyer [(1994): J Cereb Blood Flow Metab 14:690-699;
+              (1994): IEEE Trans Med Imaging 13(4):702-710] have proposed a 4-D
+              search over smoothing kernel widths as well as the usual three
+              spatial dimensions. If the peaks are well separated then this
+              makes it possible to estimate the size of regions of activation
+              as well as their location. One of the main problems identified by
+              Poline and Mazoyer is how to assess the significance of scale
+              space peaks. In this paper we provide a solution for the case of
+              pooled-variance Z-statistic images (Gaussian fields). Our main
+              result is a unified P value for the 4-D local maxima that is
+              accurate for searches over regions of any shape or size. Our
+              results apply equally well to any Gaussian statistical field,
+              such as those resulting from fMRI.},
+	Author = {Worsley, K J and Marrett, S and Neelin, P and Evans, A C},
+	Journal = {Hum. Brain Mapp.},
+	Language = {en},
+	Number = 1,
+	Pages = {74--90},
+	Title = {Searching scale space for activation in {PET} images},
+	Volume = 4,
+	Year = 1996}
+
+@article{Groves2009-wh,
+	Abstract = {When modelling FMRI and other MRI time-series data, a Bayesian
+              approach based on adaptive spatial smoothness priors is a
+              compelling alternative to using a standard generalized linear
+              model (GLM) on presmoothed data. Another benefit of the Bayesian
+              approach is that biophysical prior information can be
+              incorporated in a principled manner; however, this requirement
+              for a fixed non-spatial prior on a parameter would normally
+              preclude using spatial regularization on that same parameter. We
+              have developed a Gaussian-process-based prior to apply adaptive
+              spatial regularization while still ensuring that the fixed
+              biophysical prior is correctly applied on each voxel. A
+              parameterized covariance matrix provides separate control over
+              the variance (the diagonal elements) and the between-voxel
+              correlation (due to off-diagonal elements). Analysis proceeds
+              using evidence optimization (EO), with variational Bayes (VB)
+              updates used for some parameters. The method can also be applied
+              to non-linear forward models by using a linear Taylor expansion
+              centred on the latest parameter estimates. Applying the method to
+              FMRI with a constrained haemodynamic response function (HRF)
+              shape model shows improved fits in simulations, compared to using
+              either the non-spatial or spatial-smoothness prior alone. We also
+              analyse multi-inversion arterial spin labelling data using a
+              non-linear perfusion model to estimate cerebral blood flow and
+              bolus arrival time. By combining both types of prior information,
+              this new prior performs consistently well across a wider range of
+              situations than either prior alone, and provides better estimates
+              when both types of prior information are relevant.},
+	Author = {Groves, Adrian R and Chappell, Michael A and Woolrich, Mark W},
+	Journal = {Neuroimage},
+	Language = {en},
+	Month = apr,
+	Number = 3,
+	Pages = {795--809},
+	Title = {Combined spatial and non-spatial prior for inference on {MRI} time-series},
+	Volume = 45,
+	Year = 2009}
+
+@book{Huettel2004-zp,
+	Author = {Huettel, Scott A and Song, Allen W and McCarthy, Gregory and {Others}},
+	Publisher = {Sinauer Associates Sunderland},
+	Title = {Functional magnetic resonance imaging},
+	Volume = 1,
+	Year = 2004}
+
+@article{Harrison2008-jh,
+	Abstract = {We recently outlined a Bayesian scheme for analyzing fMRI data
+              using diffusion-based spatial priors [Harrison, L.M., Penny, W.,
+              Ashburner, J., Trujillo-Barreto, N., Friston, K.J., 2007.
+              Diffusion-based spatial priors for imaging. NeuroImage 38,
+              677-695]. The current paper continues this theme, applying it to
+              a single-subject functional magnetic resonance imaging (fMRI)
+              study of the auditory system. We show that spatial priors on
+              functional activations, based on diffusion, can be formulated in
+              terms of the eigenmodes of a graph Laplacian. This allows one to
+              discard eigenmodes with small eigenvalues, to provide a
+              computationally efficient scheme. Furthermore, this formulation
+              shows that diffusion-based priors are a generalization of
+              conventional Laplacian priors [Penny, W.D., Trujillo-Barreto,
+              N.J., Friston, K.J., 2005. Bayesian fMRI time series analysis
+              with spatial priors. NeuroImage 24, 350-362]. Finally, we show
+              how diffusion-based priors are a special case of Gaussian process
+              models that can be inverted using classical covariance component
+              estimation techniques like restricted maximum likelihood
+              [Patterson, H.D., Thompson, R., 1974. Maximum likelihood
+              estimation of components of variance. Paper presented at: 8th
+              International Biometrics Conference (Constanta, Romania)]. The
+              convention in SPM is to smooth data with a fixed isotropic
+              Gaussian kernel before inverting a mass-univariate statistical
+              model. This entails the strong assumption that data are generated
+              smoothly throughout the brain. However, there is no way to
+              determine if this assumption is supported by the data, because
+              data are smoothed before statistical modeling. In contrast, if a
+              spatial prior is used, smoothness is estimated given non-smoothed
+              data. Explicit spatial priors enable formal model comparison of
+              different prior assumptions, e.g., that data are generated from a
+              stationary (i.e., fixed throughout the brain) or non-stationary
+              spatial process. Indeed, for the auditory data we provide strong
+              evidence for a non-stationary process, which concurs with a
+              qualitative comparison of predicted activations at the boundary
+              of functionally selective regions.},
+	Author = {Harrison, L M and Penny, W and Daunizeau, J and Friston, K J},
+	Journal = {Neuroimage},
+	Language = {en},
+	Month = jun,
+	Number = 2,
+	Pages = {408--423},
+	Title = {Diffusion-based spatial priors for functional magnetic resonance images},
+	Volume = 41,
+	Year = 2008}
+
+@article{Bolin2015-wx,
+	Abstract = {Summary In several areas of application ranging from brain
+              imaging to astrophysics and geostatistics, an important
+              statistical problem is to find regions where the process studied
+              exceeds a certain level. Estimating such regions so that the
+              probability for exceeding the level in the entire set is equal to
+              some predefined value is a difficult problem connected to the
+              problem of multiple significance testing. In this work, a method
+              for solving this problem, as well as the related problem of
+              finding credible regions for contour curves, for latent Gaussian
+              models is proposed. The method is based on using a parametric
+              family for the excursion sets in combination with a sequential
+              importance sampling method for estimating joint probabilities.
+              The accuracy of the method is investigated by using simulated
+              data and an environmental application is presented.},
+	Author = {Bolin, David and Lindgren, Finn},
+	Journal = {J. R. Stat. Soc. Series B Stat. Methodol.},
+	Keywords = {Projects/Bayes-fMRI},
+	Month = jan,
+	Number = 1,
+	Pages = {85--106},
+	Title = {Excursion and contour uncertainty regions for latent Gaussian models},
+	Volume = 77,
+	Year = 2015}
+
+@incollection{Sahani2003-aj,
+	Author = {Sahani, Maneesh and Linden, Jennifer F},
+	Booktitle = {Advances in Neural Information Processing Systems 15},
+	Editor = {Becker, S and Thrun, S and Obermayer, K},
+	Pages = {317--324},
+	Publisher = {MIT Press},
+	Title = {Evidence Optimization Techniques for Estimating {Stimulus-Response} Functions},
+	Year = 2003}
+
+@article{Esteban2018-ld,
+	Abstract = {Preprocessing of functional MRI (fMRI) involves numerous steps
+               to clean and standardize data before statistical analysis.
+               Generally, researchers create ad hoc preprocessing workflows for
+               each new dataset, building upon a large inventory of tools
+               available for each step. The complexity of these workflows has
+               snowballed with rapid advances in MR data acquisition and image
+               processing techniques. We introduce fMRIPrep, an
+               analysis-agnostic tool that addresses the challenge of robust
+               and reproducible preprocessing for task-based {\ldots}},
+	Author = {Esteban, O and Markiewicz, C and Blair, R W and Moodie, C and Isik, A I and {others}},
+	Journal = {bioRxiv},
+	Publisher = {biorxiv.org},
+	Title = {{FMRIPrep}: a robust preprocessing pipeline for functional {MRI}},
+	Year = 2018}
+
+@book{Poldrack2011-ij,
+	Author = {Poldrack, Russell A and Mumford, Jeanette A and Nichols, Thomas E},
+	Keywords = {Books},
+	Publisher = {Cambridge University Press},
+	Title = {Handbook of functional {MRI} data analysis},
+	Year = 2011}
+
+@misc{Jones2001-cg,
+	Abstract = {{\ldots} Related Products. We have identified the following relevant
+               lab reagents. More... Brought to you by AQnowledge, precision
+               products for scientists . x CiteULike uses cookies, some of
+               which may already have been set. Read about how we use cookies.
+               We will interpret your continued {\ldots}},
+	Author = {Jones, Eric and Oliphant, Travis and Peterson, Pearu},
+	Keywords = {scientific\_computing},
+	Publisher = {citeulike.org},
+	Title = {{\{SciPy\}}: Open source scientific tools for \{Python\}},
+	Year = 2001}
+
+@article{Shvartsman2017-az,
+	Abstract = {Multivariate analysis of fMRI data has benefited
+                   substantially from advances in machine learning. Most
+                   recently, a range of probabilistic latent variable models
+                   applied to fMRI data have been successful in a variety of
+                   tasks, including identifying similarity patterns in neural
+                   data (Representational Similarity Analysis and its empirical
+                   Bayes variant, RSA and BRSA; Intersubject Functional
+                   Connectivity, ISFC), combining multi-subject datasets
+                   (Shared Response Mapping; SRM), and mapping between brain
+                   and behavior (Joint Modeling). Although these methods share
+                   some underpinnings, they have been developed as distinct
+                   methods, with distinct algorithms and software tools. We
+                   show how the matrix-variate normal (MN) formalism can unify
+                   some of these methods into a single framework. In doing so,
+                   we gain the ability to reuse noise modeling assumptions,
+                   algorithms, and code across models. Our primary theoretical
+                   contribution shows how some of these methods can be written
+                   as instantiations of the same model, allowing us to
+                   generalize them to flexibly modeling structured noise
+                   covariances. Our formalism permits novel model variants and
+                   improved estimation strategies: in contrast to SRM, the
+                   number of parameters for MN-SRM does not scale with the
+                   number of voxels or subjects; in contrast to BRSA, the
+                   number of parameters for MN-RSA scales additively rather
+                   than multiplicatively in the number of voxels. We
+                   empirically demonstrate advantages of two new methods
+                   derived in the formalism: for MN-RSA, we show up to 10x
+                   improvement in runtime, up to 6x improvement in RMSE, and
+                   more conservative behavior under the null. For MN-SRM, our
+                   method grants a modest improvement to out-of-sample
+                   reconstruction while relaxing the orthonormality constraint
+                   of SRM. We also provide a software prototyping tool for MN
+                   models that can flexibly reuse noise covariance assumptions
+                   and algorithms across models.},
+	Archiveprefix = {arXiv},
+	Author = {Shvartsman, Michael and Sundaram, Narayanan and Aoi, Mikio C and Charles, Adam and Wilke, Theodore C and Cohen, Jonathan D},
+	Eprint = {1711.03058},
+	Keywords = {imaging methods;Projects/Bayes-fMRI},
+	Month = nov,
+	Primaryclass = {stat.ML},
+	Title = {Matrix-normal models for {fMRI} analysis},
+	Year = 2017}
+
+@article{Lindquist2010-qe,
+	Author = {Lindquist, Martin A and Loh, Ji Meng and Yue, Yu Ryan},
+	Journal = {Stat. Interface},
+	Number = 1,
+	Pages = {3--13},
+	Publisher = {International Press of Boston},
+	Title = {Adaptive spatial smoothing of {fMRI} images},
+	Volume = 3,
+	Year = 2010}
+
+@article{Eklund2016-sc,
+	Abstract = {The most widely used task functional magnetic resonance imaging
+              (fMRI) analyses use parametric statistical methods that depend on
+              a variety of assumptions. In this work, we use real resting-state
+              data and a total of 3 million random task group analyses to
+              compute empirical familywise error rates for the fMRI software
+              packages SPM, FSL, and AFNI, as well as a nonparametric
+              permutation method. For a nominal familywise error rate of 5\%,
+              the parametric statistical methods are shown to be conservative
+              for voxelwise inference and invalid for clusterwise inference.
+              Our results suggest that the principal cause of the invalid
+              cluster inferences is spatial autocorrelation functions that do
+              not follow the assumed Gaussian shape. By comparison, the
+              nonparametric permutation test is found to produce nominal
+              results for voxelwise as well as clusterwise inference. These
+              findings speak to the need of validating the statistical methods
+              being used in the field of neuroimaging.},
+	Author = {Eklund, Anders and Nichols, Thomas E and Knutsson, Hans},
+	Journal = {Proc. Natl. Acad. Sci. U. S. A.},
+	Keywords = {cluster inference; fMRI; false positives; permutation test; statistics},
+	Language = {en},
+	Month = jul,
+	Number = 28,
+	Pages = {7900--7905},
+	Title = {Cluster failure: Why {fMRI} inferences for spatial extent have inflated false-positive rates},
+	Volume = 113,
+	Year = 2016}
+
+@article{Siden2017-uq,
+	Abstract = {Spatial whole-brain Bayesian modeling of task-related functional
+              magnetic resonance imaging (fMRI) is a great computational
+              challenge. Most of the currently proposed methods therefore do
+              inference in subregions of the brain separately or do approximate
+              inference without comparison to the true posterior distribution.
+              A popular such method, which is now the standard method for
+              Bayesian single subject analysis in the SPM software, is
+              introduced in Penny et al. (2005b). The method processes the data
+              slice-by-slice and uses an approximate variational Bayes (VB)
+              estimation algorithm that enforces posterior independence between
+              activity coefficients in different voxels. We introduce a fast
+              and practical Markov chain Monte Carlo (MCMC) scheme for exact
+              inference in the same model, both slice-wise and for the whole
+              brain using a 3D prior on activity coefficients. The algorithm
+              exploits sparsity and uses modern techniques for efficient
+              sampling from high-dimensional Gaussian distributions, leading to
+              speed-ups without which MCMC would not be a practical option.
+              Using MCMC, we are for the first time able to evaluate the
+              approximate VB posterior against the exact MCMC posterior, and
+              show that VB can lead to spurious activation. In addition, we
+              develop an improved VB method that drops the assumption of
+              independent voxels a posteriori. This algorithm is shown to be
+              much faster than both MCMC and the original VB for large
+              datasets, with negligible error compared to the MCMC posterior.},
+	Author = {Sid{\'e}n, Per and Eklund, Anders and Bolin, David and Villani, Mattias},
+	Journal = {Neuroimage},
+	Keywords = {Gaussian Markov random fields; General linear model; Markov chain Monte Carlo; Spatial priors; Variational Bayes; fMRI},
+	Language = {en},
+	Month = feb,
+	Pages = {211--225},
+	Title = {Fast Bayesian whole-brain {fMRI} analysis with spatial {3D} priors},
+	Volume = 146,
+	Year = 2017}
+
+@article{Mejia2017-qa,
+	Abstract = {Cortical surface fMRI (cs-fMRI) has recently grown in
+                   popularity versus traditional volumetric fMRI, as it allows
+                   for more meaningful spatial smoothing and is more compatible
+                   with the common assumptions of isotropy and stationarity in
+                   Bayesian spatial models. However, as no Bayesian spatial
+                   model has been proposed for cs-fMRI data, most analyses
+                   continue to employ the classical, voxel-wise general linear
+                   model (GLM) (Worsley and Friston 1995). Here, we propose a
+                   Bayesian GLM for cs-fMRI, which employs a class of
+                   sophisticated spatial processes to flexibly model latent
+                   activation fields. We use integrated nested Laplacian
+                   approximation (INLA), a highly accurate and efficient
+                   Bayesian computation technique (Rue et al. 2009). To
+                   identify regions of activation, we propose an excursions set
+                   method based on the joint posterior distribution of the
+                   latent fields, which eliminates the need for multiple
+                   comparisons correction. Finally, we address a gap in the
+                   existing literature by proposing a novel Bayesian approach
+                   for multi-subject analysis. The methods are validated and
+                   compared to the classical GLM through simulation studies and
+                   a motor task fMRI study from the Human Connectome Project.
+                   The proposed Bayesian approach results in smoother
+                   activation estimates, more accurate false positive control,
+                   and increased power to detect truly active regions.},
+	Archiveprefix = {arXiv},
+	Author = {Mejia, Amanda and Yue, Yu Ryan and Bolin, David and Lindren, Finn and Lindquist, Martin A},
+	Eprint = {1706.00959},
+	Keywords = {Bayesian methods;imaging methods;Projects/Bayes-fMRI},
+	Month = jun,
+	Primaryclass = {stat.AP},
+	Title = {A Bayesian General Linear Modeling Approach to Cortical Surface {fMRI} Data Analysis},
+	Year = 2017}
+
+@article{Rosenfeld_undated-xz,
+	Author = {Rosenfeld, Azriel and Kak, Avinash C},
+	Journal = {FL: Academic Press Google Scholar},
+	Title = {Digital Picture Processing. 1982}}
